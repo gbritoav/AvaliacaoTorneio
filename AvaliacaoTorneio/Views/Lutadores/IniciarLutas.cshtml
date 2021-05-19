@@ -1,0 +1,39 @@
+﻿@model AvaliacaoTorneio.Models.Lutador
+
+@{
+    ViewData["Title"] = "IniciarLutas";
+}
+<style>
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        margin-left: auto;
+        margin-right: auto;
+    }
+</style>
+
+
+<table id="Table">
+
+    <tr>
+        <th>
+            <h3>Vencedor</h3>
+        </th>
+
+    </tr>
+    <tr>
+        <td>
+            <div>
+                <h1> <label asp-for="Nome" class="control-label">@Model.Nome</label></h1>
+
+            </div>
+        </td>
+    </tr>
+</table>
+
+<hr />
+
+<div>
+    <a asp-action="Index">Voltar</a>
+</div>
+

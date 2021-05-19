@@ -1,0 +1,108 @@
+﻿@model IEnumerable<AvaliacaoTorneio.Models.Lutador>
+
+@{
+    ViewData["Title"] = "Index";
+
+
+}
+
+<h1>Torneio de Luta</h1>
+<p>
+    <a asp-action="IniciarLutas">Iniciar</a>
+
+
+
+</p>
+
+
+
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nome)
+            </th>
+            <th>
+                    @Html.DisplayNameFor(model => model.Idade)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Lutas)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Derrotas)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Vitorias)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ArtesMarciais)
+
+                </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nome)
+                </td>
+                <td>
+                        @Html.DisplayFor(modelItem => item.Idade)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Lutas)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Derrotas)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Vitorias)
+                    </td>
+                    <td>
+                        @item.ArtesMarciais.Count()
+                    </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+
+<script>
+
+    $(document).ready(function () {
+        $("IniciarLutas").click(function () {
+            alert("The paragraph was clicked.");
+        });
+    });
+
+@*$('#btnClick').click(function (e) {
+
+
+
+$.ajax({
+url: "@Url.Action("IniciarLutas")",
+type: 'get',
+contentType: 'application/json',
+data: JSON.stringify(@Model),
+success: function () {
+alert("yes");
+},
+error: function (errMsg) {
+alert(errMsg);
+}
+})
+});*@
+
+</script>
