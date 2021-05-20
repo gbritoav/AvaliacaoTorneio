@@ -30,7 +30,7 @@ namespace AvaliacaoTorneio.Models
         public IEnumerable<Lutador> Inicio(IEnumerable<Lutador> lutadores)
         {
            
-          return lutadores.OrderBy(x => x.Idade).Where(x => x.Vitorias >= 24 && x.Lutas >= 24).Take(16);
+          return lutadores.OrderBy(x => x.Idade).Where(x => x.Lutas >= 26).Take(16);
          
           
         }
