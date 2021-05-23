@@ -7,27 +7,32 @@
 }
 
 <h1>Torneio de Luta</h1>
-<p>
-    <a asp-action="IniciarLutas">Iniciar</a>
+<!--<p>-->
+    @*<a asp-action="IniciarLutas" id="btn">Iniciar</a>*@
 
-
-
-</p>
-
+    <!--<input type="button" onclick="funcao1()" value="Exibir Alert" />
 
 
 
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Nome)
-            </th>
-            <th>
+
+</p>-->
+
+
+
+<form asp-action="IniciarLutas" asp-controller="Lutadores" method="get">
+    <button type="submit" name="action">Iniciar Luta</button>
+    <table class="table" id="#tblLutadores">
+        <thead>
+
+            <tr>
+                <th>
+                    @Html.DisplayName("Selecione")
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Nome)
+                </th>
+                <th>
                     @Html.DisplayNameFor(model => model.Idade)
                 </th>
                 <th>
@@ -44,19 +49,21 @@
 
                 </th>
 
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Nome)
-                </td>
-                <td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+
+                        <input type="checkbox" name="Id" value="@item.Id"  />
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nome)
+                    </td>
+                    <td>
                         @Html.DisplayFor(modelItem => item.Idade)
                     </td>
                     <td>
@@ -71,38 +78,10 @@
                     <td>
                         @item.ArtesMarciais.Count()
                     </td>
-            </tr>
-        }
-    </tbody>
-</table>
+                </tr>
+            }
+        </tbody>
+    </table>
 
+</form>
 
-
-
-<script>
-
-    $(document).ready(function () {
-        $("IniciarLutas").click(function () {
-            alert("The paragraph was clicked.");
-        });
-    });
-
-@*$('#btnClick').click(function (e) {
-
-
-
-$.ajax({
-url: "@Url.Action("IniciarLutas")",
-type: 'get',
-contentType: 'application/json',
-data: JSON.stringify(@Model),
-success: function () {
-alert("yes");
-},
-error: function (errMsg) {
-alert(errMsg);
-}
-})
-});*@
-
-</script>

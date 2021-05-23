@@ -17,25 +17,18 @@ namespace AvaliacaoTorneio.Models
 
         public int Derrotas { get; set; }
 
-        public int Vitorias { get; set; }
+        public int Vitorias { get; set; }    
 
         public abstract IEnumerable<Lutador> VerificarGanhador(IEnumerable<Lutador> lutadores);
 
+        public abstract Lutador VerificarDesempate(IEnumerable<Lutador> lutadores);
+
+        public abstract int CalcularGanhador(Lutador lutadores);
 
     }
 
     public class TorneioLuta : Lutador
     {
-
-        public IEnumerable<Lutador> Inicio(IEnumerable<Lutador> lutadores)
-        {
-           
-          return lutadores.OrderBy(x => x.Idade).Where(x => x.Lutas >= 26).Take(16);
-         
-          
-        }
-
-
         public override IEnumerable<Lutador> VerificarGanhador(IEnumerable<Lutador> lutadores)
         {
 
@@ -43,31 +36,67 @@ namespace AvaliacaoTorneio.Models
             List<Lutador> resultadoLuta = new List<Lutador>();
             foreach (var item in lutadores)
             {
-               
+
                 resultadoLuta.Add(item);
 
-                if (resultadoLuta.Count()==2)
+                if (resultadoLuta.Count() == 2)
                 {
-                  
-                    resultadoGanhador.Add(resultadoLuta.OrderByDescending(x => x.Lutas).First() );
-                    resultadoLuta.Clear();
                     
+                    int lutador1 = CalcularGanhador(resultadoLuta[0]);
+
+                    var lutador2 = CalcularGanhador(resultadoLuta[1]);
+
+
+                    if (lutador1 > lutador2)
+                    {
+                        resultadoGanhador.Add(resultadoLuta[0]);
+                    }
+                    else if(lutador2 > lutador1)
+                    {
+                        resultadoGanhador.Add(resultadoLuta[1]);
+                    }
+                    if(lutador1 == lutador2)
+                    {
+                        resultadoGanhador.Add(VerificarDesempate(resultadoLuta));
+                    }                    
+                    
+                    resultadoLuta.Clear();
+
                 }
-                
+
             }
 
             return resultadoGanhador;
         }
 
 
-
-        public Lutador Final(IEnumerable<Lutador> lutadores)
+        public override Lutador VerificarDesempate(IEnumerable<Lutador> lutadores)
         {
+       
+            if(lutadores.ToList()[0].ArtesMarciais.Count() > lutadores.ToList()[1].ArtesMarciais.Count())
+            {
+                return lutadores.ToList()[0];
+            }
+            else if(lutadores.ToList()[1].ArtesMarciais.Count() > lutadores.ToList()[0].ArtesMarciais.Count())
+            {
+                return lutadores.ToList()[1];
+            }
+            else if (lutadores.ToList()[0].Lutas > lutadores.ToList()[1].Lutas)
+            {
+                return lutadores.ToList()[0];
+            }
+            else if(lutadores.ToList()[1].Lutas > lutadores.ToList()[0].Lutas )
+            {
+                return lutadores.ToList()[1];
+            }
 
-
-            return lutadores.OrderByDescending(x => x.Lutas).First();
+            return null;
+        
         }
 
-
+        public override int CalcularGanhador(Lutador lutadores)
+        {
+            return (int)((lutadores.Lutas * 100) / lutadores.Vitorias);
+        }
     }
 }

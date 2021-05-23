@@ -1,4 +1,5 @@
 ﻿using AvaliacaoTorneio.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -32,28 +33,37 @@ namespace AvaliacaoTorneio.Controllers
 
         }
 
-
-        public async Task<ActionResult> IniciarLutas()
+        [HttpGet]
+        public async Task<ActionResult> IniciarLutas(int[] Id)
         {
-
-            TorneioLuta lutador = new TorneioLuta();
-
-            var lutadores = GetLutadores();
-            if (lutadores.Count() > 0)
+            if (Id.Count() == 16)
             {
-                var inicio = lutador.Inicio(lutadores);
-                var oitavas = lutador.VerificarGanhador(inicio);
-                var quartas = lutador.VerificarGanhador(oitavas);
-                var semifinal = lutador.VerificarGanhador(quartas);
-                var vencedor = lutador.Final(semifinal);
+                TorneioLuta lutador = new TorneioLuta();
 
-                return View(vencedor);
+
+                var lutadores = GetLutadores().Where(x => Id.Contains(x.Id)).ToList();              
+
+                if (lutadores.Count() > 0)
+                {
+                    var inicio = lutadores.OrderBy(x => x.Idade);
+
+                    var oitavas = lutador.VerificarGanhador(inicio);
+                    var quartas = lutador.VerificarGanhador(oitavas);
+                    var semifinal = lutador.VerificarGanhador(quartas);
+                    var vencedor = lutador.VerificarGanhador(semifinal).First();
+
+                    return View(vencedor);
+                }
+                else
+                {
+                    return NotFound("Não há lutadores para iniciar a partida.");
+                }
             }
             else
             {
-                return NotFound("Não há lutadores para iniciar a partida.");
-            }
 
+                return NotFound("É necessário escolher 16 lutadores.");
+            }
         }
         public IEnumerable<Lutador> GetLutadores()
         {
